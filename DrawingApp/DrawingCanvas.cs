@@ -11,7 +11,7 @@ public class DrawingCanvas : UserControl
     private bool _isDrawing;
     private PointF _startPoint;
 
-    public DrawingTool ActiveTool { get; set; } 
+    public DrawingTool ActiveTool { get; set; }
 
     public int GridSize { get; set; } = 50;
     public bool ShowGrid { get; set; } = true;
@@ -23,7 +23,7 @@ public class DrawingCanvas : UserControl
         this.DoubleBuffered = true;
         this.BackColor = Color.White;
     }
-    
+
 
     protected override void OnMouseDown(MouseEventArgs e)
     {
@@ -111,7 +111,7 @@ public class DrawingCanvas : UserControl
     }
     protected override void OnPaint(PaintEventArgs e)
     {
-        
+
         Graphics g = e.Graphics;
 
 
@@ -174,13 +174,13 @@ public class DrawingCanvas : UserControl
 
     private void InitializeComponent()
     {
-            this.SuspendLayout();
-            // 
-            // DrawingCanvas
-            // 
-            this.Name = "DrawingCanvas";
-            this.Load += new System.EventHandler(this.DrawingCanvas_Load_2);
-            this.ResumeLayout(false);
+        this.SuspendLayout();
+        // 
+        // DrawingCanvas
+        // 
+        this.Name = "DrawingCanvas";
+        this.Load += new System.EventHandler(this.DrawingCanvas_Load_2);
+        this.ResumeLayout(false);
 
     }
 

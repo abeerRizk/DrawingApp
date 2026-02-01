@@ -21,6 +21,7 @@ namespace DrawingApp
         private CheckBox RectCheck;
         private CheckBox CircleCheck;
         private Button saveButton;
+        private DrawingCanvas drawingCanvas1;
         private DrawingCanvas _canvas;
 
         public MainForm()
@@ -30,7 +31,7 @@ namespace DrawingApp
             _canvas.Dock = DockStyle.Fill;
 
             this.Controls.Add(_canvas);
-            _canvas.BringToFront(); 
+            _canvas.BringToFront();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -43,7 +44,7 @@ namespace DrawingApp
 
         }
 
- 
+
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
@@ -52,7 +53,7 @@ namespace DrawingApp
 
         private void checkBox1_Click(object sender, EventArgs e)
         {
- 
+
         }
 
         private void drawingCanavas1_Load(object sender, EventArgs e)
@@ -62,6 +63,7 @@ namespace DrawingApp
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.header = new System.Windows.Forms.Panel();
             this.CircleCheck = new System.Windows.Forms.CheckBox();
             this.RectCheck = new System.Windows.Forms.CheckBox();
@@ -69,6 +71,7 @@ namespace DrawingApp
             this.footer = new System.Windows.Forms.Panel();
             this.ClearButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
+            this.drawingCanvas1 = new DrawingCanvas();
             this.header.SuspendLayout();
             this.footer.SuspendLayout();
             this.SuspendLayout();
@@ -89,11 +92,11 @@ namespace DrawingApp
             // 
             this.CircleCheck.Appearance = System.Windows.Forms.Appearance.Button;
             this.CircleCheck.AutoSize = true;
-            this.CircleCheck.Location = new System.Drawing.Point(245, 12);
+            this.CircleCheck.Image = ((System.Drawing.Image)(resources.GetObject("CircleCheck.Image")));
+            this.CircleCheck.Location = new System.Drawing.Point(203, 4);
             this.CircleCheck.Name = "CircleCheck";
-            this.CircleCheck.Size = new System.Drawing.Size(58, 30);
+            this.CircleCheck.Size = new System.Drawing.Size(56, 56);
             this.CircleCheck.TabIndex = 4;
-            this.CircleCheck.Text = "Circle";
             this.CircleCheck.UseVisualStyleBackColor = true;
             this.CircleCheck.CheckedChanged += new System.EventHandler(this.CircleCheck_CheckedChanged);
             // 
@@ -101,11 +104,11 @@ namespace DrawingApp
             // 
             this.RectCheck.Appearance = System.Windows.Forms.Appearance.Button;
             this.RectCheck.AutoSize = true;
-            this.RectCheck.Location = new System.Drawing.Point(124, 12);
+            this.RectCheck.Image = ((System.Drawing.Image)(resources.GetObject("RectCheck.Image")));
+            this.RectCheck.Location = new System.Drawing.Point(121, 4);
             this.RectCheck.Name = "RectCheck";
-            this.RectCheck.Size = new System.Drawing.Size(92, 30);
+            this.RectCheck.Size = new System.Drawing.Size(56, 56);
             this.RectCheck.TabIndex = 3;
-            this.RectCheck.Text = "Rectangle";
             this.RectCheck.UseVisualStyleBackColor = true;
             this.RectCheck.CheckedChanged += new System.EventHandler(this.RectCheck_CheckedChanged);
             // 
@@ -113,11 +116,11 @@ namespace DrawingApp
             // 
             this.lineCheck.Appearance = System.Windows.Forms.Appearance.Button;
             this.lineCheck.AutoSize = true;
-            this.lineCheck.Location = new System.Drawing.Point(27, 12);
+            this.lineCheck.Image = ((System.Drawing.Image)(resources.GetObject("lineCheck.Image")));
+            this.lineCheck.Location = new System.Drawing.Point(40, 3);
             this.lineCheck.Name = "lineCheck";
-            this.lineCheck.Size = new System.Drawing.Size(49, 30);
+            this.lineCheck.Size = new System.Drawing.Size(56, 56);
             this.lineCheck.TabIndex = 2;
-            this.lineCheck.Text = "Line";
             this.lineCheck.UseVisualStyleBackColor = true;
             this.lineCheck.CheckedChanged += new System.EventHandler(this.lineCheck_CheckedChanged);
             // 
@@ -152,9 +155,22 @@ namespace DrawingApp
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
+            // drawingCanvas1
+            // 
+            this.drawingCanvas1.ActiveTool = DrawingApp.Models.DrawingTool.Select;
+            this.drawingCanvas1.BackColor = System.Drawing.Color.White;
+            this.drawingCanvas1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.drawingCanvas1.GridSize = 50;
+            this.drawingCanvas1.Location = new System.Drawing.Point(0, 60);
+            this.drawingCanvas1.Name = "drawingCanvas1";
+            this.drawingCanvas1.ShowGrid = true;
+            this.drawingCanvas1.Size = new System.Drawing.Size(1117, 371);
+            this.drawingCanvas1.TabIndex = 2;
+            // 
             // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(1117, 491);
+            this.Controls.Add(this.drawingCanvas1);
             this.Controls.Add(this.footer);
             this.Controls.Add(this.header);
             this.Name = "MainForm";
