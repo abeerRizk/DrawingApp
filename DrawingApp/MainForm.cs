@@ -17,7 +17,7 @@ namespace DrawingApp
         private Panel header;
         private CheckBox lineCheck;
         private Panel footer;
-        private Button CancelButton;
+        private Button ClearButton;
         private CheckBox RectCheck;
         private CheckBox CircleCheck;
         private Button saveButton;
@@ -67,7 +67,7 @@ namespace DrawingApp
             this.RectCheck = new System.Windows.Forms.CheckBox();
             this.lineCheck = new System.Windows.Forms.CheckBox();
             this.footer = new System.Windows.Forms.Panel();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.ClearButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.header.SuspendLayout();
             this.footer.SuspendLayout();
@@ -124,7 +124,7 @@ namespace DrawingApp
             // footer
             // 
             this.footer.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.footer.Controls.Add(this.CancelButton);
+            this.footer.Controls.Add(this.ClearButton);
             this.footer.Controls.Add(this.saveButton);
             this.footer.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.footer.Location = new System.Drawing.Point(0, 431);
@@ -132,14 +132,15 @@ namespace DrawingApp
             this.footer.Size = new System.Drawing.Size(1117, 60);
             this.footer.TabIndex = 1;
             // 
-            // CancelButton
+            // ClearButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(968, 17);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(105, 31);
-            this.CancelButton.TabIndex = 1;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Location = new System.Drawing.Point(968, 17);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(105, 31);
+            this.ClearButton.TabIndex = 1;
+            this.ClearButton.Text = "Clear";
+            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
             // saveButton
             // 
@@ -234,6 +235,16 @@ namespace DrawingApp
                     _canvas.SaveAsImage(dialog.FileName);
                 }
             }
+        }
+
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            var currentTool = _canvas.ActiveTool;
+            _canvas = new DrawingCanvas();
+            _canvas.Dock = DockStyle.Fill;
+            _canvas.ActiveTool = currentTool;
+            this.Controls.Add(_canvas);
+            _canvas.BringToFront();
         }
     }
 }
