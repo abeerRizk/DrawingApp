@@ -12,7 +12,7 @@ using System.Windows.Forms;
 namespace DrawingApp
 {
 
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private Panel header;
         private CheckBox lineCheck;
@@ -20,23 +20,17 @@ namespace DrawingApp
         private Button CancelButton;
         private CheckBox RectCheck;
         private CheckBox CircleCheck;
-        private Button okButton;
+        private Button saveButton;
         private DrawingCanvas _canvas;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
-            // Create canvas in code (since it's custom)
             _canvas = new DrawingCanvas();
             _canvas.Dock = DockStyle.Fill;
-            _canvas.ActiveTool = DrawingTool.Line;
+
             this.Controls.Add(_canvas);
-            _canvas.BringToFront(); // so it fills space after toolbar
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
+            _canvas.BringToFront(); 
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -58,9 +52,7 @@ namespace DrawingApp
 
         private void checkBox1_Click(object sender, EventArgs e)
         {
-            //if (checkBox1.Checked) { 
-
-            //}
+ 
         }
 
         private void drawingCanavas1_Load(object sender, EventArgs e)
@@ -76,7 +68,7 @@ namespace DrawingApp
             this.lineCheck = new System.Windows.Forms.CheckBox();
             this.footer = new System.Windows.Forms.Panel();
             this.CancelButton = new System.Windows.Forms.Button();
-            this.okButton = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
             this.header.SuspendLayout();
             this.footer.SuspendLayout();
             this.SuspendLayout();
@@ -133,7 +125,7 @@ namespace DrawingApp
             // 
             this.footer.BackColor = System.Drawing.SystemColors.HotTrack;
             this.footer.Controls.Add(this.CancelButton);
-            this.footer.Controls.Add(this.okButton);
+            this.footer.Controls.Add(this.saveButton);
             this.footer.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.footer.Location = new System.Drawing.Point(0, 431);
             this.footer.Name = "footer";
@@ -149,21 +141,22 @@ namespace DrawingApp
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
-            // okButton
+            // saveButton
             // 
-            this.okButton.Location = new System.Drawing.Point(840, 17);
-            this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(105, 31);
-            this.okButton.TabIndex = 0;
-            this.okButton.Text = "Ok";
-            this.okButton.UseVisualStyleBackColor = true;
+            this.saveButton.Location = new System.Drawing.Point(840, 17);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(105, 31);
+            this.saveButton.TabIndex = 0;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // Form1
+            // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(1117, 491);
             this.Controls.Add(this.footer);
             this.Controls.Add(this.header);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Load += new System.EventHandler(this.Form1_Load_1);
             this.header.ResumeLayout(false);
             this.header.PerformLayout();
@@ -185,8 +178,7 @@ namespace DrawingApp
 
 
 
-
-    private void lineCheck_CheckedChanged(object sender, EventArgs e)
+        private void lineCheck_CheckedChanged(object sender, EventArgs e)
         {
             if (lineCheck.Checked)
             {
@@ -213,6 +205,34 @@ namespace DrawingApp
                 lineCheck.Checked = false;
                 RectCheck.Checked = false;
                 _canvas.ActiveTool = DrawingTool.Circle;
+            }
+        }
+
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog dialog = new SaveFileDialog())
+            {
+                dialog.Filter = "PNG Image|*.png|JPEG Image|*.jpg";
+                dialog.Title = "Save Drawing";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _canvas.SaveAsImage(dialog.FileName);
+                }
+            }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog dialog = new SaveFileDialog())
+            {
+                dialog.Filter = "PNG Image|*.png|JPEG Image|*.jpg";
+                dialog.Title = "Save Drawing";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _canvas.SaveAsImage(dialog.FileName);
+                }
             }
         }
     }

@@ -11,7 +11,7 @@ public class DrawingCanvas : UserControl
     private bool _isDrawing;
     private PointF _startPoint;
 
-    public DrawingTool ActiveTool { get; set; } = DrawingTool.Line;
+    public DrawingTool ActiveTool { get; set; } 
 
     public int GridSize { get; set; } = 50;
     public bool ShowGrid { get; set; } = true;
@@ -98,13 +98,11 @@ public class DrawingCanvas : UserControl
 
         using (var pen = new Pen(Color.LightGray, 0.5f))
         {
-            // Vertical lines
             for (int x = 0; x < this.Width; x += GridSize)
             {
                 g.DrawLine(pen, x, 0, x, this.Height);
             }
 
-            // Horizontal lines
             for (int y = 0; y < this.Height; y += GridSize)
             {
                 g.DrawLine(pen, 0, y, this.Width, y);
@@ -113,7 +111,7 @@ public class DrawingCanvas : UserControl
     }
     protected override void OnPaint(PaintEventArgs e)
     {
-        base.OnPaint(e);
+        
         Graphics g = e.Graphics;
 
 
@@ -127,11 +125,66 @@ public class DrawingCanvas : UserControl
         {
             _previewShape.draw(g);
         }
+        DrawIntersections(g);
+    }
+
+    private void DrawIntersections(Graphics g)
+    {
+        float dotSize = 8f;
+
+        using (var brush = new SolidBrush(Color.Red))
+        {
+            for (int i = 0; i < _shapes.Count; i++)
+            {
+                for (int j = i + 1; j < _shapes.Count; j++)
+                {
+                    var points = Intersection.FindIntersections(
+                        _shapes[i], _shapes[j]);
+
+                    foreach (var point in points)
+                    {
+                        g.FillEllipse(brush,
+                            point.X - dotSize / 2,
+                            point.Y - dotSize / 2,
+                            dotSize, dotSize);
+                    }
+                }
+            }
+        }
+    }
+
+    public void SaveAsImage(string filePath)
+    {
+        using (Bitmap bitmap = new Bitmap(this.Width, this.Height))
+        {
+            this.DrawToBitmap(bitmap, new Rectangle(0, 0, this.Width, this.Height));
+            bitmap.Save(filePath);
+        }
+    }
+    private void DrawingCanvas_Load(object sender, EventArgs e)
+    {
+
     }
 
 
+    private void DrawingCanvas_Load_1(object sender, EventArgs e)
+    {
 
-    private void DrawingCanvas_Load(object sender, EventArgs e)
+    }
+
+    private void InitializeComponent()
+    {
+            this.SuspendLayout();
+            // 
+            // DrawingCanvas
+            // 
+            this.Name = "DrawingCanvas";
+            this.Load += new System.EventHandler(this.DrawingCanvas_Load_2);
+            this.ResumeLayout(false);
+
+    }
+
+    private void DrawingCanvas_Load_2(object sender, EventArgs e)
     {
 
     }
