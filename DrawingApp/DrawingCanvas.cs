@@ -118,9 +118,11 @@ public class DrawingCanvas : UserControl
 
 
         DrawGrid(g);
-        foreach (var shape in _shapes)
+        int n = this._shapes.Count;
+        for (var i = n-1; i>= 0;i--)
         {
-            shape.draw(g);
+            if (this._shapes[i] == null) break;
+            this._shapes[i].draw(g);
         }
 
         if (_previewShape != null)
@@ -133,13 +135,15 @@ public class DrawingCanvas : UserControl
     private void DrawIntersections(Graphics g)
     {
         float dotSize = 8f;
-
+        int n = _shapes.Count;
         using (var brush = new SolidBrush(Color.Red))
         {
-            for (int i = 0; i < _shapes.Count; i++)
+            for (int i = n-1; i>= 0; i--)
             {
-                for (int j = i + 1; j < _shapes.Count; j++)
+                if (_shapes[i] == null) break;
+                for (int j = i - 1; j >=0 ; j--)
                 {
+                    if (_shapes[j] == null) break;
                     var points = Intersection.FindIntersections(
                         _shapes[i], _shapes[j]);
 
@@ -167,8 +171,10 @@ public class DrawingCanvas : UserControl
     public void clearShapes()
     {
 
-        this._shapes.Clear();
+        this._shapes.Add(null);
         this.undo_shapes.Clear();
+
+        Invalidate();
     }
     public void UndoChanges() {
         if (this._shapes.Count > 0 )
