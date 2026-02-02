@@ -22,6 +22,8 @@ namespace DrawingApp
         private CheckBox CircleCheck;
         private Button saveButton;
         private DrawingCanvas drawingCanvas1;
+        private Button undoButton;
+        private Button redoButton;
         private DrawingCanvas _canvas;
 
         public MainForm()
@@ -72,6 +74,8 @@ namespace DrawingApp
             this.ClearButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.drawingCanvas1 = new DrawingCanvas();
+            this.undoButton = new System.Windows.Forms.Button();
+            this.redoButton = new System.Windows.Forms.Button();
             this.header.SuspendLayout();
             this.footer.SuspendLayout();
             this.SuspendLayout();
@@ -79,6 +83,8 @@ namespace DrawingApp
             // header
             // 
             this.header.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.header.Controls.Add(this.redoButton);
+            this.header.Controls.Add(this.undoButton);
             this.header.Controls.Add(this.CircleCheck);
             this.header.Controls.Add(this.RectCheck);
             this.header.Controls.Add(this.lineCheck);
@@ -166,6 +172,26 @@ namespace DrawingApp
             this.drawingCanvas1.ShowGrid = true;
             this.drawingCanvas1.Size = new System.Drawing.Size(1117, 371);
             this.drawingCanvas1.TabIndex = 2;
+            // 
+            // undoButton
+            // 
+            this.undoButton.Image = ((System.Drawing.Image)(resources.GetObject("undoButton.Image")));
+            this.undoButton.Location = new System.Drawing.Point(953, 4);
+            this.undoButton.Name = "undoButton";
+            this.undoButton.Size = new System.Drawing.Size(61, 56);
+            this.undoButton.TabIndex = 5;
+            this.undoButton.UseVisualStyleBackColor = true;
+            this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
+            // 
+            // redoButton
+            // 
+            this.redoButton.Image = ((System.Drawing.Image)(resources.GetObject("redoButton.Image")));
+            this.redoButton.Location = new System.Drawing.Point(1020, 4);
+            this.redoButton.Name = "redoButton";
+            this.redoButton.Size = new System.Drawing.Size(61, 56);
+            this.redoButton.TabIndex = 6;
+            this.redoButton.UseVisualStyleBackColor = true;
+            this.redoButton.Click += new System.EventHandler(this.redoButton_Click);
             // 
             // MainForm
             // 
@@ -255,12 +281,17 @@ namespace DrawingApp
 
         private void ClearButton_Click(object sender, EventArgs e)
         {
-            var currentTool = _canvas.ActiveTool;
-            _canvas = new DrawingCanvas();
-            _canvas.Dock = DockStyle.Fill;
-            _canvas.ActiveTool = currentTool;
-            this.Controls.Add(_canvas);
-            _canvas.BringToFront();
+            _canvas.clearShapes();
+        }
+
+        private void undoButton_Click(object sender, EventArgs e)
+        {
+            _canvas.UndoChanges();
+        }
+
+        private void redoButton_Click(object sender, EventArgs e)
+        {
+            _canvas.RedoChanges();
         }
     }
 }

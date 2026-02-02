@@ -7,6 +7,8 @@ using System.Windows.Forms;
 public class DrawingCanvas : UserControl
 {
     private List<Shape> _shapes = new List<Shape>();
+    private List<Shape> undo_shapes = new List<Shape>();
+
     private Shape _previewShape;
     private bool _isDrawing;
     private PointF _startPoint;
@@ -159,6 +161,32 @@ public class DrawingCanvas : UserControl
         {
             this.DrawToBitmap(bitmap, new Rectangle(0, 0, this.Width, this.Height));
             bitmap.Save(filePath);
+        }
+    }
+
+    public void clearShapes()
+    {
+
+        this._shapes.Clear();
+        this.undo_shapes.Clear();
+    }
+    public void UndoChanges() {
+        if (this._shapes.Count > 0 )
+        {
+            this.undo_shapes.Add(this._shapes[this._shapes.Count - 1]);
+            this._shapes.Remove(this._shapes[this._shapes.Count - 1]);
+          
+        }
+        Invalidate();
+
+    }
+    public void RedoChanges()
+    {
+        if (this.undo_shapes.Count > 0)
+        {
+            this._shapes.Add(this.undo_shapes[this.undo_shapes.Count - 1]);
+            this.undo_shapes.Remove(this.undo_shapes[this.undo_shapes.Count - 1]);
+            Invalidate();
         }
     }
     private void DrawingCanvas_Load(object sender, EventArgs e)
